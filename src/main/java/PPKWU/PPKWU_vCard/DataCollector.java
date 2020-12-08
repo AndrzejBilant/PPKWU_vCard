@@ -2,6 +2,8 @@ package PPKWU.PPKWU_vCard;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,7 +14,7 @@ import java.io.IOException;
 @RestController public class DataCollector {
 
     @RequestMapping(path = "/company")
-    public void getCalendarForRequestedMonthFromWEEIA(@RequestParam(value = "name") int name, HttpServletResponse response) {
+    public void getCalendarForRequestedMonthFromWEEIA(@RequestParam(value = "name") String name, HttpServletResponse response) {
 
         String url = "https://panoramafirm.pl/szukaj?k=";
         String localization = "&l=";
@@ -25,6 +27,12 @@ import java.io.IOException;
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
-        System.out.println(document);
+        Elements elements = document.select("script");
+        for (Element element : elements) {
+            if (element.attr("type").equals("application/ld+json")) {
+                System.out.println(element.data());
+
+            }
+        }
     }
 }
