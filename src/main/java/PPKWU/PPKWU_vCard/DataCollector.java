@@ -17,8 +17,8 @@ import java.util.ArrayList;
 @RestController public class DataCollector {
 
     @RequestMapping(path = "/company")
-    public void getCompaniesListFormPANORAMAFIRM(@RequestParam(value = "name") String name, HttpServletResponse response) {
-
+    public String getCompaniesListFormPANORAMAFIRM(@RequestParam(value = "name") String name, HttpServletResponse response) {
+        StringBuilder stringBuilder = new StringBuilder();
         String url = "https://panoramafirm.pl/szukaj?k=";
         String localization = "&l=";
         System.out.println(name);
@@ -35,16 +35,17 @@ import java.util.ArrayList;
         Elements elements = document.select("script");
         for (Element element : elements) {
             if (element.attr("type").equals("application/ld+json")) {
-                companies.add(gson.fromJson(element.data(),Company.class));
+                companies.add(gson.fromJson(element.data(), Company.class));
             }
         }
         for (Company company : companies) {
-            System.out.println(company);
+            stringBuilder.append(companies + "<br>");
         }
-
+        return stringBuilder.toString();
     }
 
-    class Company{
+    class Company {
+
         String name;
         String telephone;
         String email;
@@ -55,22 +56,23 @@ import java.util.ArrayList;
             return "Company{"
                    + "name='"
                    + name
-                   + '\''
+                   + "<br>"
                    + ", telephone='"
                    + telephone
-                   + '\''
+                   + "<br>"
                    + ", email='"
                    + email
-                   + '\''
+                   + "<br>"
                    + ", sameAs="
                    + sameAs
                    + ", address="
                    + address
-                   + '}';
+                   + "}<br>";
         }
     }
 
-    class Address{
+    class Address {
+
         String streetAddress;
         String addressLocality;
         String postalCode;
@@ -80,16 +82,16 @@ import java.util.ArrayList;
             return "Address{"
                    + "streetAddress='"
                    + streetAddress
-                   + '\''
+                   + "<br>"
                    + ", addressLocality='"
                    + addressLocality
-                   + '\''
+                   + "<br>"
                    + ", postalCode='"
                    + postalCode
-                   + '\''
+                   + "<br>"
                    + ", addressCountry='"
                    + addressCountry
-                   + '\''
+                   + "<br>"
                    + '}';
         }
     }
