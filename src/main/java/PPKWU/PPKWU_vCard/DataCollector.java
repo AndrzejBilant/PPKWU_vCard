@@ -5,7 +5,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.boot.json.GsonJsonParser;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +17,7 @@ import java.util.ArrayList;
 @RestController public class DataCollector {
 
     @RequestMapping(path = "/company")
-    public void getCalendarForRequestedMonthFromWEEIA(@RequestParam(value = "name") String name, HttpServletResponse response) {
+    public void getCompaniesListFormPANORAMAFIRM(@RequestParam(value = "name") String name, HttpServletResponse response) {
 
         String url = "https://panoramafirm.pl/szukaj?k=";
         String localization = "&l=";
