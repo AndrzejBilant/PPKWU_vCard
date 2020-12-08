@@ -17,9 +17,11 @@ Replace NAME name of the company you want to search.
 First API collects data from Panorama Firm website using jSoup. 
 
 After that data is filtered to gather useful information.
-API looks for records. In <script> with type=application/ld+json records are collected.
+API looks for records. In <script> with type=application/ld+json records are collected in json file.
+After that from json file cotainers classes are crated.
   
 
 ## Reference documentation
 
-* [Konfiguracja spring boot](https://docs.spring.io/spring-boot/docs/2.3.5.RELEASE/maven-plugin/reference/html/)
+* [Spring boot configuration](https://docs.spring.io/spring-boot/docs/2.3.5.RELEASE/maven-plugin/reference/html/)
+* [Parsing json file to class](http://tutorials.jenkov.com/java-json/gson.html)
