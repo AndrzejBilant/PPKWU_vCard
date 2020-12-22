@@ -8,6 +8,7 @@ import org.jsoup.select.Elements;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 @RestController public class DataCollector {
 
     @RequestMapping(path = "/company")
-    public String getCompaniesListFormPANORAMAFIRM(@RequestParam(value = "name") String name, @RequestParam(value = "name") String localization , HttpServletResponse response) {
+    public ModelAndView getCompaniesListFormPANORAMAFIRM(@RequestParam(value = "name") String name, @RequestParam(value = "name") String localization , HttpServletResponse response) {
         StringBuilder stringBuilder = new StringBuilder();
 
         String url = "https://panoramafirm.pl/szukaj?k=";
@@ -39,7 +40,8 @@ import java.util.ArrayList;
             }
         }
 
-        return stringBuilder.toString();
+        String s = gson.toJson(companies);
+        return new ModelAndView("table", "data", s);
     }
 
     class Company {
