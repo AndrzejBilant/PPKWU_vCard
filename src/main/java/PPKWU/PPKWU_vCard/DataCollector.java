@@ -21,13 +21,12 @@ import java.util.ArrayList;
     @RequestMapping(path = "/vcard", method = RequestMethod.POST)
     public void getVcard(@RequestParam(value = "name") String name, @RequestParam(value = "telephone") String telephone,
             @RequestParam(value = "address") String address, @RequestParam(value = "email") String email,
-            @RequestParam(value = "url") String url, HttpServletResponse response)  {
+            @RequestParam(value = "url") String url, HttpServletResponse response) {
 
     }
 
-
-    @RequestMapping(path = "/company")
-    public ModelAndView getCompaniesListFormPANORAMAFIRM(@RequestParam(value = "name") String name, @RequestParam(value = "localization") String localization , HttpServletResponse response) {
+    @RequestMapping(path = "/company") public ModelAndView getCompaniesListFormPANORAMAFIRM(@RequestParam(value = "name") String name,
+            @RequestParam(value = "localization") String localization, HttpServletResponse response) {
 
         String url = "https://panoramafirm.pl/szukaj?k=";
         String localizationFormat = "&l=";
@@ -49,6 +48,7 @@ import java.util.ArrayList;
         }
         for (Company company : companies) {
             company.setAddress();
+            company.addButton();
         }
 
         String s = gson.toJson(companies);
@@ -63,10 +63,32 @@ import java.util.ArrayList;
         URL sameAs;
         Address address;
         String addressLegit;
+        String button;
 
         public void setAddress() {
             if (address != null)
                 addressLegit = address.toString();
+        }
+
+        public void addButton() {
+            button = "<form method=\"post\" action=\"/vcard\">"
+                     + "<input type=\"hidden\" name=\"name\" value=\""
+                     + name
+                     + "\">"
+                     + "<input type=\"hidden\" name=\"telephone\" value=\""
+                     + telephone
+                     + "\">"
+                     + "<input type=\"hidden\" name=\"address\" value=\""
+                     + addressLegit
+                     + "\">"
+                     + "<input type=\"hidden\" name=\"email\" value=\""
+                     + email
+                     + "\">"
+                     + "<input type=\"hidden\" name=\"url\" value=\""
+                     + sameAs
+                     + "\">"
+                     + "<button type=\"submit\">Get vcard</button>\n"
+                     + "</form>";
         }
     }
 
@@ -77,5 +99,8 @@ import java.util.ArrayList;
         String postalCode;
         String addressCountry;
 
+        @Override public String toString() {
+            return streetAddress + " " + addressLocality + " " + postalCode + " " + addressCountry;
+        }
     }
 }

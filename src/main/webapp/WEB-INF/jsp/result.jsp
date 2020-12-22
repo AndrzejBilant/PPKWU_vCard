@@ -35,8 +35,8 @@
             <th data-field="telephone">Telephone</th>
             <th data-field="email">Email</th>
             <th data-field="sameAs">Link</th>
-            <th data-field="addressLegit">Link</th>
-
+            <th data-field="addressLegit">Address</th>
+            <th data-field="button">Vcard</th>
         </tr>
         </thead>
     </table>
