@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.net.URL;
 import java.util.ArrayList;
 
 @RestController public class DataCollector {
@@ -23,6 +22,12 @@ import java.util.ArrayList;
     public void getVcard(@RequestParam(value = "name") String name, @RequestParam(value = "telephone") String telephone,
             @RequestParam(value = "address") String address, @RequestParam(value = "email") String email,
             @RequestParam(value = "url") String url, HttpServletResponse response) throws IOException {
+        File file = createVCardFile(name, telephone, address, email, url);
+
+        sendFile(response, file);
+    }
+
+    private File createVCardFile(String name, String telephone, String address, String email, String url) throws IOException {
         File file = new File("vCard.vcf");
         FileWriter fileWriter = new FileWriter(file.getAbsoluteFile());
 
@@ -39,7 +44,10 @@ import java.util.ArrayList;
 
         fileWriter.write(stringBuilder.toString());
         fileWriter.close();
+        return file;
+    }
 
+    private void sendFile(HttpServletResponse response, File file) throws IOException {
         InputStream inputStream = new FileInputStream(file);
         response.setContentType("text/vcard;charset=utf-8");
         IOUtils.copy(inputStream, response.getOutputStream());
@@ -53,6 +61,7 @@ import java.util.ArrayList;
         String localizationFormat = "&l=";
         url += name + localizationFormat + localization;
 
+        ArrayList<Company> companies = new ArrayList<>();
         Document document = null;
         try {
             document = Jsoup.connect(url).get();
@@ -60,7 +69,7 @@ import java.util.ArrayList;
             ioException.printStackTrace();
         }
         Gson gson = new Gson();
-        ArrayList<Company> companies = new ArrayList<>();
+
         Elements elements = document.select("script");
         for (Element element : elements) {
             if (element.attr("type").equals("application/ld+json")) {
@@ -74,54 +83,5 @@ import java.util.ArrayList;
 
         String s = gson.toJson(companies);
         return new ModelAndView("result", "string", s);
-    }
-
-    class Company {
-
-        String name;
-        String telephone;
-        String email;
-        URL sameAs;
-        Address address;
-        String addressLegit;
-        String button;
-
-        public void setAddress() {
-            if (address != null)
-                addressLegit = address.toString();
-        }
-
-        public void addButton() {
-            button = "<form method=\"post\" action=\"/vcard\">"
-                     + "<input type=\"hidden\" name=\"name\" value=\""
-                     + name
-                     + "\">"
-                     + "<input type=\"hidden\" name=\"telephone\" value=\""
-                     + telephone
-                     + "\">"
-                     + "<input type=\"hidden\" name=\"address\" value=\""
-                     + addressLegit
-                     + "\">"
-                     + "<input type=\"hidden\" name=\"email\" value=\""
-                     + email
-                     + "\">"
-                     + "<input type=\"hidden\" name=\"url\" value=\""
-                     + sameAs
-                     + "\">"
-                     + "<button type=\"submit\">Get vcard</button>\n"
-                     + "</form>";
-        }
-    }
-
-    class Address {
-
-        String streetAddress;
-        String addressLocality;
-        String postalCode;
-        String addressCountry;
-
-        @Override public String toString() {
-            return streetAddress + " " + addressLocality + " " + postalCode + " " + addressCountry;
-        }
     }
 }
