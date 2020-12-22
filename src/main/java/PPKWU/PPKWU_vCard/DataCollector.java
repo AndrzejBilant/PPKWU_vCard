@@ -17,12 +17,12 @@ import java.util.ArrayList;
 @RestController public class DataCollector {
 
     @RequestMapping(path = "/company")
-    public String getCompaniesListFormPANORAMAFIRM(@RequestParam(value = "name") String name, HttpServletResponse response) {
+    public String getCompaniesListFormPANORAMAFIRM(@RequestParam(value = "name") String name, @RequestParam(value = "name") String localization , HttpServletResponse response) {
         StringBuilder stringBuilder = new StringBuilder();
 
         String url = "https://panoramafirm.pl/szukaj?k=";
-        String localization = "&l=";
-        url += name + localization;
+        String localizationFormat = "&l=";
+        url += name + localizationFormat + localization;
 
         Document document = null;
         try {
