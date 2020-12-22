@@ -1,6 +1,7 @@
 package PPKWU.PPKWU_vCard;
 
 import com.google.gson.Gson;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -21,8 +22,28 @@ import java.util.ArrayList;
     @RequestMapping(path = "/vcard", method = RequestMethod.POST)
     public void getVcard(@RequestParam(value = "name") String name, @RequestParam(value = "telephone") String telephone,
             @RequestParam(value = "address") String address, @RequestParam(value = "email") String email,
-            @RequestParam(value = "url") String url, HttpServletResponse response) {
+            @RequestParam(value = "url") String url, HttpServletResponse response) throws IOException {
+        File file = new File("vCard.vcf");
+        FileWriter fileWriter = new FileWriter(file.getAbsoluteFile());
 
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append("BEGIN:VCARD\r\n");
+        stringBuilder.append("VERSION:4.0\r\n");
+        stringBuilder.append("ORG:" + name + "\r\n");
+        stringBuilder.append("TEL:" + telephone + "\r\n");
+        stringBuilder.append("ADR:" + address + "\r\n");
+        stringBuilder.append("EMAIL:" + email + "\r\n");
+        stringBuilder.append("URL:" + url + "\r\n");
+        stringBuilder.append("END:VCARD");
+
+        fileWriter.write(stringBuilder.toString());
+        fileWriter.close();
+
+        InputStream inputStream = new FileInputStream(file);
+        response.setContentType("text/vcard;charset=utf-8");
+        IOUtils.copy(inputStream, response.getOutputStream());
+        response.flushBuffer();
     }
 
     @RequestMapping(path = "/company") public ModelAndView getCompaniesListFormPANORAMAFIRM(@RequestParam(value = "name") String name,
