@@ -20,25 +20,26 @@
 </head>
 <body>
 <div class="container">
-<%--    <script>--%>
-<%--        var $table = $('#table');--%>
-<%--        $(function () {--%>
-<%--            $('#table').bootstrapTable({--%>
-<%--                data: ${string}--%>
-<%--            });--%>
-<%--        });--%>
-<%--    </script>--%>
-<%--    <table id="table">--%>
-<%--        <thead>--%>
-<%--        <tr>--%>
-<%--            <th data-field="name">Company name</th>--%>
-<%--            <th data-field="telephone">Telephone</th>--%>
-<%--            <th data-field="email">Email</th>--%>
-<%--            <th data-field="sameAs">Link</th>--%>
+    <script>
+        var $table = $('#table');
+        $(function () {
+            $('#table').bootstrapTable({
+                data: ${string}
+            });
+        });
+    </script>
+    <table id="table">
+        <thead>
+        <tr>
+            <th data-field="name">Company name</th>
+            <th data-field="telephone">Telephone</th>
+            <th data-field="email">Email</th>
+            <th data-field="sameAs">Link</th>
+            <th data-field="address">Link</th>
 
-<%--        </tr>--%>
-<%--        </thead>--%>
-<%--    </table>--%>
+        </tr>
+        </thead>
+    </table>
 </div>
 </body>
 </html>
