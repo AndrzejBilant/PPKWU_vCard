@@ -18,8 +18,7 @@ import java.util.ArrayList;
 @RestController public class DataCollector {
 
     @RequestMapping(path = "/company")
-    public ModelAndView getCompaniesListFormPANORAMAFIRM(@RequestParam(value = "name") String name, @RequestParam(value = "name") String localization , HttpServletResponse response) {
-        StringBuilder stringBuilder = new StringBuilder();
+    public ModelAndView getCompaniesListFormPANORAMAFIRM(@RequestParam(value = "name") String name, @RequestParam(value = "localization") String localization , HttpServletResponse response) {
 
         String url = "https://panoramafirm.pl/szukaj?k=";
         String localizationFormat = "&l=";
@@ -41,7 +40,7 @@ import java.util.ArrayList;
         }
 
         String s = gson.toJson(companies);
-        return new ModelAndView("table", "data", s);
+        return new ModelAndView("result", "string", s);
     }
 
     class Company {
