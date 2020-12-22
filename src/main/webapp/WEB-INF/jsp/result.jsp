@@ -35,7 +35,7 @@
             <th data-field="telephone">Telephone</th>
             <th data-field="email">Email</th>
             <th data-field="sameAs">Link</th>
-            <th data-field="address">Link</th>
+            <th data-field="addressLegit">Link</th>
 
         </tr>
         </thead>
