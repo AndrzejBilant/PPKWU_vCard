@@ -38,6 +38,9 @@ import java.util.ArrayList;
                 companies.add(gson.fromJson(element.data(), Company.class));
             }
         }
+        for (Company company : companies) {
+            company.setAddress();
+        }
 
         String s = gson.toJson(companies);
         return new ModelAndView("result", "string", s);
@@ -50,7 +53,12 @@ import java.util.ArrayList;
         String email;
         URL sameAs;
         Address address;
+        String addressLegit;
 
+        public void setAddress() {
+            if (address != null)
+                addressLegit = address.toString();
+        }
     }
 
     class Address {
