@@ -23,7 +23,7 @@ Data is shown in a table with bootsrap. Each row has form hidden under button th
 
 ## Example .ics file generated for March 2020
 
-[Download example file]()
+[Download example file](https://andrzejbilant.github.io/PPKWU_vCard/vcard.vcf)
 
 ## Reference documentation
 
